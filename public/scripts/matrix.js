@@ -114,7 +114,7 @@
             var sqrs = matrix.width / this.dim;
             for(var i = 0; i < sqrs; i += 1) {
                 this.stuff.push(new matrix.Square(
-                    i * this.x, this.y, this.dim, this.ctx
+                    i * this.dim + this.x, this.y, this.dim, this.ctx
                 ));
             }
         };
