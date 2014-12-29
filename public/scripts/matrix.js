@@ -10,30 +10,37 @@
         this.ctx = this.canvas.getContext('2d');
         this.animId = null;
         this.colors = ['#000', '#fff'];
-        this.squares = []; // for testing
+        this.lanes = []; // for testing
 
         this.canvas.onclick = function(e) {
-            var square = new matrix.Square(
+            var lane = new matrix.Lane(
                 e.layerX, e.layerY, 40, self.ctx
             );
-            square.render();
-            self.squares.push(square);
+            lane.render();
+            self.lanes.push(lane);
         };
 
         this.animate();
+    };
+
+    matrix.update = function() {
+        for(var i = 0; i < this.lanes.length; i += 1) {
+            this.lanes[i].update();
+        }
     };
 
     (function(matrix) {
         matrix.render = function() {
             this.ctx.clearRect(0, 0, this.width, this.height);
             //TODO: add actual funtionality
-            for(var i = 0; i < this.squares.length; i += 1) {
-                this.squares[i].render();
+            for(var i = 0; i < this.lanes.length; i += 1) {
+                this.lanes[i].render();
             }
         };
 
         matrix.animate = function() {
             var self = this;
+            this.update();
             this.render();
             this.animId = requestAnimationFrame(function() {
                 self.animate();
@@ -94,8 +101,38 @@
     }(window.matrix));
 
     (function(matrix) {
-        matrix.Lane = function() {
+        matrix.Lane = function(x, y, dim, ctx) {
+            this.x = x;
+            this.y = y;
+            this.ctx = ctx;
+            this.dim = dim;
+            this.stuff = [];
+            this.populate();
+        };
 
+        matrix.Lane.prototype.populate = function() {
+            var sqrs = matrix.width / this.dim;
+            for(var i = 0; i < sqrs; i += 1) {
+                this.stuff.push(new matrix.Square(
+                    i * this.x, this.y, this.dim, this.ctx
+                ));
+            }
+        };
+
+        matrix.Lane.prototype.render = function() {
+            for(var i = 0; i < this.stuff.length; i += 1) {
+                this.stuff[i].render();
+            }
+        };
+
+        matrix.Lane.prototype.update = function() {
+            var i = 0;
+            while(i < this.stuff.length - 1) {
+                if(this.stuff[i].adjust === this.stuff[i + 1].adjust) {
+                    this.stuff[i + 1].flip();
+                }
+                i += 1;
+            }
         };
     }(window.matrix));
 
