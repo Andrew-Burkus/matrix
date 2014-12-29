@@ -29,6 +29,11 @@
         }
     };
 
+    matrix.flipRandomLane = function() {
+        var indexToFlip = Math.floor((this.lanes.length - 1) * Math.random());
+        this.lanes[indexToFlip].flipRandomSquare();
+    };
+
     (function(matrix) {
         matrix.render = function() {
             this.ctx.clearRect(0, 0, this.width, this.height);
@@ -133,6 +138,11 @@
                 }
                 i += 1;
             }
+        };
+
+        matrix.Lane.prototype.flipRandomSquare = function() {
+            var indexToFlip = Math.floor((this.stuff.length - 1) * Math.random());
+            this.stuff[indexToFlip].flip();
         };
     }(window.matrix));
 
