@@ -1,0 +1,14 @@
+{
+  "name": "matrix",
+  "version": "1.0.0",
+  "description": "canvas experiment",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "author": "andrew burkus",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.10.6"
+  }
+}
